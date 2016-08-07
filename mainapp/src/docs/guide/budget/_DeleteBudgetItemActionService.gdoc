@@ -1,0 +1,40 @@
+
+
+{table}
+Access Type: | Restricted | Priority: | High
+*Name:* | Delete "Procurement Budget Item" | |
+*ActionService:* | N/A | *Auditable:* | No
+*Url:* | N/A | | 
+{table}
+
+
+h4. Revision History:
+{table}
+*Author*   | *Date*	| *Reason for Changes*	| *Version*
+Meherun Nessa | 13th August 2014 | Initial Requirement | 1.0
+{table}
+
+h4. Actor:
+Director, Project Director, Chief Financial Officer.
+
+h4. Description:
+Name of use case represents its functionality.
+
+
+h4. Pre-condition:
+* [Delete "Budget Schema"|guide:DeleteBudgSchemaActionService].
+* [Generate Budget Requirement|guide:GenerateBudgetRequirementActionService].
+* Delete "Procurement Budget Item".
+
+h4. Process:
+* Item must be deleted from "Procurement Budget Item" grid view.
+
+h4. Post-condition:
+
+* *Success:*
+** Remove from "Procurement Budget Item" grid view.
+** Show Success message.
+
+* *Failure:*
+** Show error message for details visit [Error Handler|common Usecases].
+

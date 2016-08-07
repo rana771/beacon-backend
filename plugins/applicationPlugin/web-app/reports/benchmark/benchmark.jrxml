@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="benchmark" language="groovy" pageWidth="840" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="800" leftMargin="20" rightMargin="20" topMargin="10" bottomMargin="20" uuid="703f9980-2d94-4d6a-998e-bb64af52c838">
+	<property name="ireport.zoom" value="0.75"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT" class="java.lang.String"/>
+	<parameter name="REPORT_DIR" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<parameter name="COMMON_REPORT_DIR" class="java.lang.String"/>
+	<parameter name="benchmarkId" class="java.lang.Long"/>
+	<parameter name="benchmarkName" class="java.lang.String"/>
+	<parameter name="volumeTypeName" class="java.lang.String"/>
+	<parameter name="totalRecord" class="java.lang.Long"/>
+	<parameter name="recordPerBatch" class="java.lang.Long"/>
+	<parameter name="startTime" class="java.lang.String"/>
+	<parameter name="endTime" class="java.lang.String"/>
+	<parameter name="totalTime" class="java.lang.String"/>
+	<parameter name="readTime" class="java.lang.String"/>
+	<parameter name="isSimulation" class="java.lang.String"/>
+	<parameter name="processingTime" class="java.lang.String"/>
+	<parameter name="writeTime" class="java.lang.String"/>
+	<parameter name="transactionLogType" class="java.lang.Long"/>
+	<parameter name="companyLogo" class="java.io.InputStream"/>
+	<parameter name="avgReadTime" class="java.lang.String"/>
+	<parameter name="avgProcessingTime" class="java.lang.String"/>
+	<parameter name="avgWriteTime" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT (bt.sequence * b.record_per_batch) AS batch_data, bt.time_to_read AS read_time,
+bt.time_to_write AS write_time, bt.processing_time, b.record_per_batch
+FROM transaction_log bt
+LEFT JOIN benchmark b ON b.id = bt.entity_id
+WHERE bt.entity_id = $P{benchmarkId}
+AND bt.entity_type_id = $P{transactionLogType}]]>
+	</queryString>
+	<field name="batch_data" class="java.lang.Long"/>
+	<field name="read_time" class="java.lang.Long"/>
+	<field name="write_time" class="java.lang.Long"/>
+	<field name="processing_time" class="java.lang.Long"/>
+	<field name="record_per_batch" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="190">
+			<staticText>
+				<reportElement x="0" y="52" width="100" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Benchmark]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="52" width="5" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="105" y="52" width="360" height="20" forecolor="#2C2A2B" uuid="fdae0380-ef47-4b93-bca9-ec2a6134a0c0"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{benchmarkName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="465" y="52" width="100" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Volume]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="565" y="52" width="5" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="570" y="52" width="230" height="20" forecolor="#2C2A2B" uuid="fdae0380-ef47-4b93-bca9-ec2a6134a0c0"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{volumeTypeName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="72" width="100" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Total Record]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="465" y="72" width="100" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Record Per Batch]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="72" width="5" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="565" y="72" width="5" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="105" y="72" width="360" height="20" forecolor="#2C2A2B" uuid="fdae0380-ef47-4b93-bca9-ec2a6134a0c0"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalRecord}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="570" y="72" width="230" height="20" forecolor="#2C2A2B" uuid="fdae0380-ef47-4b93-bca9-ec2a6134a0c0"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{recordPerBatch}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="92" width="100" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Start Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="465" y="92" width="100" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[End Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="112" width="100" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Total Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="92" width="5" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="112" width="5" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="465" y="112" width="100" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Read Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="565" y="92" width="5" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="565" y="112" width="5" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="570" y="92" width="230" height="20" forecolor="#2C2A2B" uuid="fdae0380-ef47-4b93-bca9-ec2a6134a0c0"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{endTime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="570" y="112" width="230" height="20" forecolor="#2C2A2B" uuid="fdae0380-ef47-4b93-bca9-ec2a6134a0c0"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{readTime} + " ( batch avg " + $P{avgReadTime} + " )"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="92" width="360" height="20" forecolor="#2C2A2B" uuid="fdae0380-ef47-4b93-bca9-ec2a6134a0c0"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{startTime}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="105" y="112" width="360" height="20" forecolor="#2C2A2B" uuid="fdae0380-ef47-4b93-bca9-ec2a6134a0c0"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalTime}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="152" width="100" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Simulation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="152" width="5" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="105" y="152" width="360" height="20" forecolor="#2C2A2B" uuid="fdae0380-ef47-4b93-bca9-ec2a6134a0c0"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{isSimulation}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="465" y="132" width="100" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Write Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="565" y="132" width="5" height="20" forecolor="#2C2A2B" uuid="61ea2eba-c630-4c81-a259-3afc082e69cd"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="570" y="132" width="230" height="20" forecolor="#2C2A2B" uuid="fdae0380-ef47-4b93-bca9-ec2a6134a0c0"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{writeTime} + " ( batch avg " + $P{avgWriteTime} + " )"]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="0" width="800" height="36" uuid="c2417f0b-303b-4ffc-9558-2b9e22b4fa0f"/>
+				<subreportParameter name="reportTitle">
+					<subreportParameterExpression><![CDATA["Benchmark Report"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="companyLogo">
+					<subreportParameterExpression><![CDATA[$P{companyLogo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{COMMON_REPORT_DIR} + "commonHeaderLandscape.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="100" y="132" width="5" height="20" forecolor="#2C2A2B" uuid="0ec45c9e-ae1a-404f-9440-cd3f8f0b5005"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="132" width="100" height="20" forecolor="#2C2A2B" uuid="df1b08ff-34d5-4b8a-a482-018633390572"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Processing Time]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="105" y="132" width="360" height="20" forecolor="#2C2A2B" uuid="433ce591-1c70-4176-8db4-f86a08b96c74"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{processingTime} + " ( batch avg " + $P{avgProcessingTime} + " )"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<pageFooter>
+		<band height="18" splitType="Stretch">
+			<subreport>
+				<reportElement x="245" y="0" width="555" height="18" forecolor="#2C2A2B" uuid="09a0949e-b59e-4126-98a9-e90605a3941c"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{COMMON_REPORT_DIR} + "commonReportFooter.jasper"]]></subreportExpression>
+			</subreport>
+			<textField evaluationTime="Report">
+				<reportElement x="405" y="0" width="40" height="18" forecolor="#2C2A2B" uuid="a55fe0fe-b34e-4c57-beb5-6630b1913909"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Cambria" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="0" y="0" width="149" height="18" forecolor="#2C2A2B" uuid="63d2c89c-329c-4dd2-8a85-e85dbd687300"/>
+				<box>
+					<pen lineColor="#2C2A2B"/>
+					<topPen lineColor="#2C2A2B"/>
+					<leftPen lineColor="#2C2A2B"/>
+					<bottomPen lineColor="#2C2A2B"/>
+					<rightPen lineColor="#2C2A2B"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Cambria" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Printed On : " + new java.util.Date().format("dd-MMM-yyyy")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="325" y="0" width="80" height="18" forecolor="#2C2A2B" uuid="f9d8b781-8691-4c65-9558-2d543d66b9ed"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Cambria" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="800" height="1" forecolor="#2C2A2B" uuid="c882ffb4-aee1-4c94-92e9-899c26ce5243"/>
+				<box>
+					<bottomPen lineWidth="0.1" lineColor="#939597"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="238">
+			<xyLineChart>
+				<chart isShowLegend="true" theme="default">
+					<reportElement x="0" y="0" width="800" height="238" forecolor="#2C2A2B" uuid="42ab69f2-d1c9-4398-ada4-1f07c7fc26f7"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend position="Bottom"/>
+				</chart>
+				<xyDataset>
+					<xySeries>
+						<seriesExpression><![CDATA["Read Time"]]></seriesExpression>
+						<xValueExpression><![CDATA[$F{batch_data}]]></xValueExpression>
+						<yValueExpression><![CDATA[$F{read_time}]]></yValueExpression>
+					</xySeries>
+					<xySeries>
+						<seriesExpression><![CDATA["Processing Time"]]></seriesExpression>
+						<xValueExpression><![CDATA[$F{batch_data}]]></xValueExpression>
+						<yValueExpression><![CDATA[$F{processing_time}]]></yValueExpression>
+					</xySeries>
+					<xySeries>
+						<seriesExpression><![CDATA["Write Time"]]></seriesExpression>
+						<xValueExpression><![CDATA[$F{batch_data}]]></xValueExpression>
+						<yValueExpression><![CDATA[$F{write_time}]]></yValueExpression>
+					</xySeries>
+				</xyDataset>
+				<linePlot isShowLines="true" isShowShapes="false">
+					<plot/>
+					<categoryAxisLabelExpression><![CDATA["Transaction Span ( " + $F{record_per_batch} + " per batch )"]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["Milliseconds"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</linePlot>
+			</xyLineChart>
+		</band>
+	</summary>
+</jasperReport>

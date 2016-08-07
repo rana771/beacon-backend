@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="appShellScript" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="10" bottomMargin="20" uuid="1a2c75df-ff9b-4899-b7f4-91b1ff8d5316">
+	<property name="ireport.zoom" value="1.6105100000000014"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="REPORT_DIR" class="java.lang.String"/>
+	<parameter name="COMMON_REPORT_DIR" class="java.lang.String"/>
+	<parameter name="companyId" class="java.lang.Long"/>
+	<parameter name="scriptId" class="java.lang.Long"/>
+	<parameter name="companyLogo" class="java.io.InputStream"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<parameter name="entityTypeAttachment" class="java.lang.Long"/>
+	<parameter name="entityTypeNote" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT  ss.id,
+	ss.name,
+	ss.script,
+	ss.last_executed_on,
+	ss.number_of_execution,
+	se.key as script_type,
+CASE WHEN ss.script_type_id = (SELECT id FROM system_entity WHERE reserved_id = 10000182 AND company_id =  ss.company_id) THEN db.name
+WHEN ss.script_type_id = (SELECT id FROM system_entity WHERE reserved_id = 10000181 AND company_id =  ss.company_id) THEN server.name
+END AS insntace_name
+FROM app_shell_script ss
+LEFT JOIN system_entity se ON se.id = ss.script_type_id
+LEFT JOIN app_db_instance db ON db.id = ss.server_instance_id
+LEFT JOIN app_server_instance server ON server.id = ss.server_instance_id
+WHERE ss.id = $P{scriptId}]]>
+	</queryString>
+	<field name="id" class="java.lang.Long"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="script" class="java.lang.String"/>
+	<field name="last_executed_on" class="java.sql.Timestamp"/>
+	<field name="number_of_execution" class="java.lang.Integer"/>
+	<field name="script_type" class="java.lang.String"/>
+	<field name="insntace_name" class="java.lang.String"/>
+	<pageHeader>
+		<band height="45">
+			<subreport>
+				<reportElement uuid="6299fcec-242e-4e70-819a-9716b54523d6" x="0" y="0" width="555" height="36"/>
+				<subreportParameter name="reportTitle">
+					<subreportParameterExpression><![CDATA["Script Details"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="companyLogo">
+					<subreportParameterExpression><![CDATA[$P{companyLogo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{COMMON_REPORT_DIR} + "commonHeader.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="59">
+			<staticText>
+				<reportElement uuid="7827db0d-1824-4d3c-98ee-71ddca912367" positionType="Float" x="375" y="19" width="75" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Last Execution]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7aef8ef5-f838-4081-9aed-52763ec12acc" positionType="Float" x="70" y="19" width="5" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Cambria" size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7aef8ef5-f838-4081-9aed-52763ec12acc" positionType="Float" x="450" y="19" width="5" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Cambria" size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7827db0d-1824-4d3c-98ee-71ddca912367" positionType="Float" x="0" y="37" width="70" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7aef8ef5-f838-4081-9aed-52763ec12acc" positionType="Float" x="70" y="37" width="5" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Cambria" size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="56628daf-70fb-4405-a864-45252d7b7818" stretchType="RelativeToTallestObject" x="75" y="1" width="274" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Cambria" size="10" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{insntace_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd MMM yyyy hh:mm aaa" isBlankWhenNull="true">
+				<reportElement uuid="3b0989e6-4549-4957-8812-05a03ae9e7b3" stretchType="RelativeToTallestObject" x="455" y="19" width="100" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font fontName="Cambria" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{last_executed_on}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="2d78ac8d-cd6e-430d-be50-76bd4b5f70c5" stretchType="RelativeToTallestObject" x="75" y="19" width="150" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font fontName="Cambria" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{script_type}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6447572f-e9fa-4bee-9fc7-d702c9f058d0" x="0" y="19" width="70" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font fontName="Cambria" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7aef8ef5-f838-4081-9aed-52763ec12acc" positionType="Float" x="70" y="1" width="5" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Cambria" size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7827db0d-1824-4d3c-98ee-71ddca912367" positionType="Float" x="375" y="1" width="75" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[No. Of Execution]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7aef8ef5-f838-4081-9aed-52763ec12acc" positionType="Float" x="450" y="1" width="5" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Cambria" size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="d7f22200-999e-4a5d-8faf-57a3fbf18998" stretchType="RelativeToTallestObject" x="455" y="1" width="100" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font fontName="Cambria" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{number_of_execution}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="a657e4b4-c9ff-4736-b155-559d74184a78" stretchType="RelativeToTallestObject" x="75" y="37" width="274" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font fontName="Cambria" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6447572f-e9fa-4bee-9fc7-d702c9f058d0" x="0" y="1" width="70" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2"/>
+				<textElement>
+					<font fontName="Cambria" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Instance  Name]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="47">
+			<printWhenExpression><![CDATA[$F{script}!=null]]></printWhenExpression>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement uuid="56628daf-70fb-4405-a864-45252d7b7818" stretchType="RelativeToTallestObject" x="0" y="22" width="555" height="20" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement verticalAlignment="Top" markup="styled">
+					<font fontName="Cambria" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{script}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="215f26a2-85f5-4dd1-a329-402e986e4994" mode="Opaque" x="0" y="5" width="555" height="17" forecolor="#2C2A2B" backcolor="#EAF4FA"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Cambria" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Script:]]></text>
+			</staticText>
+		</band>
+		<band height="45">
+			<staticText>
+				<reportElement uuid="215f26a2-85f5-4dd1-a329-402e986e4994" mode="Opaque" x="0" y="5" width="555" height="15" isRemoveLineWhenBlank="true" forecolor="#2C2A2B" backcolor="#EAF4FA"/>
+				<box topPadding="1" leftPadding="2" bottomPadding="1" rightPadding="2">
+					<topPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Cambria" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Note:]]></text>
+			</staticText>
+			<subreport>
+				<reportElement uuid="8f0ae685-0a9f-4556-910b-ad8d16905db0" x="0" y="20" width="555" height="20" isRemoveLineWhenBlank="true"/>
+				<subreportParameter name="entityTypeId">
+					<subreportParameterExpression><![CDATA[$P{entityTypeNote}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="scriptId">
+					<subreportParameterExpression><![CDATA[$P{scriptId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="companyId">
+					<subreportParameterExpression><![CDATA[$P{companyId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subReportForNote.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="18">
+			<textField pattern="">
+				<reportElement uuid="bcf84a52-1ea9-48a3-b456-a83996242e14" x="0" y="-1" width="165" height="18"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Cambria" size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Printed On : " + new java.util.Date().format("dd-MMM-yyyy")]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement uuid="f2fcc7e4-7cce-4fce-b6fc-be959a4b7307" x="0" y="0" width="555" height="18"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{COMMON_REPORT_DIR} + "commonReportFooter.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement uuid="e8a73be8-ee87-46f2-a038-3d9aca8e0559" x="0" y="1" width="555" height="1"/>
+				<box>
+					<bottomPen lineWidth="0.1" lineColor="#939597"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="74f49077-f707-4510-b5fb-9fe4d52e46af" x="204" y="0" width="80" height="18" forecolor="#2C2A2B"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Cambria" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="8db29b98-20d6-47cd-ad0c-3d5fb6a2ccc9" x="284" y="0" width="40" height="18" forecolor="#2C2A2B"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Cambria" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

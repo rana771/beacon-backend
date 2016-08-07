@@ -1,0 +1,63 @@
+#divFeatureList {
+	width: 95%;
+    height: 75%;
+	margin: 50px auto;
+	padding: 20px;
+	background: #FFF;
+	border: 1px solid #CCC;
+    overflow: auto;
+}
+
+#divFeatureList #tabs{
+    list-style-type: none;
+    padding: 0 0 0 0;
+}
+
+#divFeatureList #tabs h5 {
+    margin-top: 5px;
+}
+
+#divFeatureList #tabs>li {
+    font-size: 12px;
+    font-family: Arial;
+}
+
+#divFeatureList #tabs> li a{
+    padding: 2px 0 0 0;
+}
+
+#divFeatureList #output{
+    list-style-type: none;
+    padding: 0 5px 0 0;
+}
+
+#divFeatureList #output>li{
+    position: absolute;
+}
+
+#divFeatureList #tabs>li a {
+    color: #222;
+    text-decoration: none;
+    display: block;
+    outline: none;
+}
+
+#divFeatureList #tabs>li a:hover {
+    background: url('../../images/featurelist/feature-tab-current_h.png')no-repeat;
+    background-size: 100%;
+}
+
+#divFeatureList #tabs>li a.current {
+    background: url('../../images/featurelist/feature-tab-current.png')no-repeat;
+    background-size: 100%;
+    color: #FFF;
+}
+
+.representation{
+    max-width: 100%;
+    max-height: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+}

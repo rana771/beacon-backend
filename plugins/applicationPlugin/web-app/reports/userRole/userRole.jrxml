@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="userRole" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="10" bottomMargin="20" uuid="8fa5faa7-d462-4a01-b835-787865c9ddce">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="REPORT_DIR" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<parameter name="COMMON_REPORT_DIR" class="java.lang.String"/>
+	<parameter name="companyId" class="java.lang.Long"/>
+	<parameter name="companyLogo" class="java.io.InputStream"/>
+	<queryString>
+		<![CDATA[SELECT au.id, au.login_id,au.username, role.name AS role
+FROM app_user au
+RIGHT JOIN user_role ur ON ur.user_id = au.id
+LEFT JOIN role ON role.id = ur.role_id
+WHERE au.company_id = $P{companyId}
+AND au.enabled = true
+ORDER BY au.username, role.name;]]>
+	</queryString>
+	<field name="id" class="java.lang.Long"/>
+	<field name="login_id" class="java.lang.String"/>
+	<field name="username" class="java.lang.String"/>
+	<field name="role" class="java.lang.String"/>
+	<variable name="GROUP_INCR" class="java.lang.Integer" incrementType="Group" incrementGroup="user" calculation="Count">
+		<variableExpression><![CDATA[$V{GROUP_INCR}]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.lang.Integer(1)]]></initialValueExpression>
+	</variable>
+	<variable name="GROUP_SERIAL" class="java.lang.Integer" resetType="Group" resetGroup="user" calculation="Count">
+		<variableExpression><![CDATA[$V{GROUP_SERIAL}]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.lang.Integer(1)]]></initialValueExpression>
+	</variable>
+	<group name="user" isReprintHeaderOnEachPage="true" keepTogether="true">
+		<groupExpression><![CDATA[$F{id}]]></groupExpression>
+		<groupHeader>
+			<band height="25">
+				<textField>
+					<reportElement uuid="a95a2b0f-0156-463d-801d-b503d7a6f5f0" mode="Opaque" x="0" y="10" width="555" height="15" forecolor="#2C2A2B" backcolor="#EAF4FA"/>
+					<box topPadding="1" leftPadding="2" bottomPadding="1" rightPadding="2"/>
+					<textElement>
+						<font fontName="Cambria" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{username} + " (" + $F{login_id} + ")"]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<pageHeader>
+		<band height="36">
+			<subreport>
+				<reportElement uuid="d23cb45e-7225-4219-a808-17a415333b5d" x="0" y="0" width="555" height="36"/>
+				<subreportParameter name="reportTitle">
+					<subreportParameterExpression><![CDATA["User Role Report"]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="companyLogo">
+					<subreportParameterExpression><![CDATA[$P{companyLogo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{COMMON_REPORT_DIR} + "commonHeader.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="18" splitType="Prevent">
+			<textField>
+				<reportElement uuid="15173426-4335-4315-b0fd-7d1d35f0937c" x="40" y="0" width="515" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<bottomPen lineWidth="0.1" lineColor="#D1D2D4"/>
+				</box>
+				<textElement>
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{role}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="161cba34-1251-4aad-bbfe-786fc17115c2" x="20" y="0" width="20" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<bottomPen lineWidth="0.1" lineColor="#D1D2D4"/>
+				</box>
+				<textElement>
+					<font fontName="Cambria"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{GROUP_SERIAL} + "."]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="19">
+			<subreport>
+				<reportElement uuid="0dce7792-8e7b-4f79-acd2-ccf9e6b3f4a2" x="0" y="1" width="555" height="18"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{COMMON_REPORT_DIR} + "commonReportFooter.jasper"]]></subreportExpression>
+			</subreport>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement uuid="0c3833a9-d9ef-4d30-aadc-9f710090dabd" x="0" y="1" width="168" height="18" forecolor="#2C2A2B"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Cambria" size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Printed On : " + new java.util.Date().format("dd-MMM-yyyy")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e59dc5d4-2252-4212-b609-dda25c025a02" x="207" y="1" width="80" height="18" forecolor="#2C2A2B"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font fontName="Cambria" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="6ec42f16-b934-438a-a69f-05976fa6907a" x="287" y="1" width="40" height="18" forecolor="#2C2A2B"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Cambria" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="7827db0d-1824-4d3c-98ee-71ddca912367" positionType="Float" mode="Transparent" x="0" y="0" width="555" height="1" backcolor="#FFFFFF"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.1" lineColor="#939597"/>
+					<rightPen lineWidth="0.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

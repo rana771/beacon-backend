@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontFamilies>
+
+   <fontFamily name="Cambria">
+       <normal><![CDATA[fonts/cambria.ttf]]></normal>
+       <bold><![CDATA[fonts/cambriab.ttf]]></bold>
+       <italic><![CDATA[fonts/cambriai.ttf]]></italic>
+       <boldItalic><![CDATA[fonts/cambriaz.ttf]]></boldItalic>
+       <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+   </fontFamily>
+
+
+   <fontFamily name="DejaVu Sans">
+       <normal><![CDATA[fonts/DejaVuSans.ttf]]></normal>
+       <bold><![CDATA[fonts/DejaVuSans-Bold.ttf]]></bold>
+       <italic><![CDATA[fonts/DejaVuSans-Oblique.ttf]]></italic>
+       <boldItalic><![CDATA[fonts/DejaVuSans-BoldOblique.ttf]]></boldItalic>
+       <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+   </fontFamily>
+
+
+   <fontFamily name="DejaVu Sans Mono">
+       <normal><![CDATA[fonts/DejaVuSansMono.ttf]]></normal>
+       <bold><![CDATA[fonts/DejaVuSansMono-Bold.ttf]]></bold>
+       <italic><![CDATA[fonts/DejaVuSansMono-Oblique.ttf]]></italic>
+       <boldItalic><![CDATA[fonts/DejaVuSansMono-BoldOblique.ttf]]></boldItalic>
+       <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+   </fontFamily>
+
+
+   <fontFamily name="DejaVu Serif">
+       <normal><![CDATA[fonts/DejaVuSerif.ttf]]></normal>
+       <bold><![CDATA[fonts/DejaVuSerif-Bold.ttf]]></bold>
+       <italic><![CDATA[fonts/DejaVuSerif-Italic.ttf]]></italic>
+       <boldItalic><![CDATA[fonts/DejaVuSerif-BoldItalic.ttf]]></boldItalic>
+       <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+   </fontFamily>
+
+
+</fontFamilies>

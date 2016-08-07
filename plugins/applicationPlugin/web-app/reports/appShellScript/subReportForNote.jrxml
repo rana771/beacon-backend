@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subReportForNote" language="groovy" pageWidth="555" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="214c4f4a-424c-416d-9e0c-2b30270417f1">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="scriptId" class="java.lang.Long"/>
+	<parameter name="companyId" class="java.lang.Long"/>
+	<parameter name="entityTypeId" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT note.note, note.created_on, app_user.username AS created_by
+FROM app_note note
+LEFT JOIN app_user ON app_user.id = note.created_by
+WHERE note.entity_id = $P{scriptId}
+AND note.entity_type_id = $P{entityTypeId}
+ORDER BY note.created_on]]>
+	</queryString>
+	<field name="note" class="java.lang.String"/>
+	<field name="created_on" class="java.sql.Timestamp"/>
+	<field name="created_by" class="java.lang.String"/>
+	<pageHeader>
+		<band height="18">
+			<printWhenExpression><![CDATA[!$F{note}]]></printWhenExpression>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="0ba6c7aa-10b8-445c-9592-73dcdb34386c" stretchType="RelativeToTallestObject" x="0" y="0" width="555" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.1" lineColor="#939597"/>
+					<bottomPen lineWidth="0.1" lineColor="#939597"/>
+				</box>
+				<textElement>
+					<font fontName="Cambria" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["N/A"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="18">
+			<printWhenExpression><![CDATA[$F{note} != null]]></printWhenExpression>
+			<staticText>
+				<reportElement uuid="750fa85b-878c-49bc-980e-c1c3862a4e79" mode="Transparent" x="20" y="0" width="74" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.1" lineColor="#939597"/>
+					<bottomPen lineWidth="0.1" lineColor="#939597"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Created On]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="750fa85b-878c-49bc-980e-c1c3862a4e79" mode="Transparent" x="0" y="0" width="20" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.1" lineColor="#939597"/>
+					<bottomPen lineWidth="0.1" lineColor="#939597"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="Cambria" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SL.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2aa88f22-29c6-4599-999b-25803ee3d255" x="94" y="0" width="116" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.1" lineColor="#939597"/>
+					<bottomPen lineWidth="0.1" lineColor="#939597"/>
+				</box>
+				<textElement>
+					<font fontName="Cambria" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Created By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f1d2ff5d-e599-471b-b191-3cc67e6b43e7" x="210" y="0" width="345" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.1" lineColor="#939597"/>
+					<bottomPen lineWidth="0.1" lineColor="#939597"/>
+				</box>
+				<textElement>
+					<font fontName="Cambria" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Note]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Prevent">
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="8821549f-0425-4d05-a54c-2a0f0087eedf" stretchType="RelativeToTallestObject" x="0" y="0" width="20" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.1" lineColor="#D1D2D4"/>
+				</box>
+				<textElement>
+					<font fontName="Cambria" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT} + "."]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd-MMM-yy" isBlankWhenNull="true">
+				<reportElement uuid="f054012d-419c-421e-a79a-a102722c18b6" stretchType="RelativeToTallestObject" x="20" y="0" width="74" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.1" lineColor="#D1D2D4"/>
+				</box>
+				<textElement>
+					<font fontName="Cambria" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{created_on}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="fb8e8f32-1ea6-46ec-b9a4-624772a2ddde" stretchType="RelativeToTallestObject" x="94" y="0" width="116" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.1" lineColor="#D1D2D4"/>
+				</box>
+				<textElement>
+					<font fontName="Cambria" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{created_by}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="8c08f6c7-0360-4951-8845-33601a2614fb" stretchType="RelativeToTallestObject" x="210" y="0" width="345" height="18" forecolor="#2C2A2B"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.1" lineColor="#D1D2D4"/>
+				</box>
+				<textElement markup="html">
+					<font fontName="Cambria" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[org.apache.commons.lang.StringEscapeUtils.unescapeHtml($F{note})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

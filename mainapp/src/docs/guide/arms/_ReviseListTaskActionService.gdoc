@@ -1,0 +1,56 @@
+
+
+{table}
+Access Type: | Restricted | Priority: | High
+*Name:* | Revise Included List *Task* | |
+*ActionService:* | ReviseTaskActionService | *Auditable:* | No
+*Url:* | /rmsTask/reviseTask | |
+{table}
+
+h4. Revision History
+{table}
+*Author*   | *Date*	| *Reason for Changes*	| *Version*
+Nahida Sultana | 12th August 2014	| Initial Requirement | 1.0
+{table}
+
+h4. Actor:
+Remittance User.
+
+h4. Description:
+Name of the use case represents its functionality.
+
+h4. Flow:
+* Actor clicks [ARMS|guide:_ShowARMSPlugin] option from top menu bar.
+* "Disbursement" sub menu of left menu should show as default.
+* Click "Task Instrument Mapping" link.
+* [Show Landing Page of "Task Instrument Mapping"|guide:ShowForMapTaskActionService].
+* Enter Valid input.
+* Click "Search" button.
+* [Search "Task List" to Map|guide:ListTaskForMapTaskActionService].
+* Select line item from grid view.
+* Click "Revise" button from tool bar.
+* Give the "Revise" note in text area.
+* Click on "Revise" button.
+* Revise Included List *Task*.
+
+h4. Pre-condition:
+* User must have "Revise Task" privilege.
+* Revise note must be given.
+* *Task* must be included in list.
+* Disbursed *Task* must not revise-able.
+
+h4. Process:
+* Task must be removed from selected Task List.
+* *Task* Status Change to "New Task".
+* Make Revise status true.
+
+
+h4. Post-condition:
+
+* *Success:*
+** Show Success message.
+** Remove Revised *Task* from grid view.
+
+
+* *Failure:*
+** Show error message for details visit [Error Handler|common Usecases].

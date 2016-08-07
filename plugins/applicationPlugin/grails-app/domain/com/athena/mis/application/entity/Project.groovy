@@ -1,0 +1,140 @@
+package com.athena.mis.application.entity
+
+/**
+ * <p>
+ * <strong>Module:</strong> Application </br>
+ * <strong>Purpose:</strong> One or more entity/features perform under a certain Project.
+ * Project has association with few other domains as listed below.
+ * </p>
+ *
+ * <p><strong>Foreign Reference:</strong> Other domain, which has foreign key reference of Project:</p>
+ * <ul>
+ *     <strong>Application Plugin</strong>
+ *     <li>{@link com.athena.mis.application.entity.AppAttachment#entityId}</li>
+ *     <li>{@link com.athena.mis.application.entity.AppUserEntity#entityId}</li>
+ *
+ *     <strong>Budget Plugin</strong>
+ *     <li>{@link com.athena.mis.budget.entity.BudgBudget#projectId}</li>
+ *     <li>{@link com.athena.mis.budget.entity.BudgBudgetDetails#projectId (redundent)}</li>
+ *     <li>{@link com.athena.mis.budget.entity.BudgSchema#projectId (redundent)}</li>
+ *     <li>{@link com.athena.mis.budget.entity.BudgSprint#projectId}</li>
+ *     <li>{@link com.athena.mis.budget.entity.BudgProjectBudgetScope#projectId}</li>
+ *     <li>{@link com.athena.mis.budget.model.BudgBudgetProjectModel#projectName refer name}</li>
+ *     <li>{@link com.athena.mis.budget.model.BudgBudgetProjectModel#projectCode refer code}</li>
+ *
+ *     <strong>Procurement Plugin</strong>
+ *     <li>{@link com.athena.mis.procurement.entity.ProcPurchaseRequest#projectId}</li>
+ *     <li>{@link com.athena.mis.procurement.entity.ProcPurchaseRequestDetails#projectId (redundent)}</li>
+ *     <li>{@link com.athena.mis.procurement.entity.ProcPurchaseOrder#projectId (redundent)}</li>
+ *     <li>{@link com.athena.mis.procurement.entity.ProcPurchaseOrderDetails#projectId (redundent)}</li>
+ *     <li>{@link com.athena.mis.procurement.entity.ProcCancelledPO#projectId}</li>
+ *     <li>{@link com.athena.mis.procurement.entity.ProcCancelledPODetails#projectId (redundent)}</li>
+ *     <li>{@link com.athena.mis.procurement.entity.ProcTermsAndCondition#projectId (redundent)}</li>
+ *     <li>{@link com.athena.mis.procurement.model.ProcPOForStoreInModel#projectId (redundent)}</li>
+ *     <li>{@link com.athena.mis.procurement.model.ProcPOStatusModel#projectId (redundent)}</li>
+ *
+ *     <strong>Inventory Plugin</strong>
+ *     <li>{@link com.athena.mis.inventory.entity.InvInventory#projectId}</li>
+ *     <li>{@link com.athena.mis.inventory.entity.InvInventoryTransaction#projectId}</li>
+ *
+ *     <strong>Accounting Plugin</strong>
+ *     <li>{@link com.athena.mis.accounting.entity.AccVoucher#projectId}</li>
+ *     <li>{@link com.athena.mis.accounting.entity.AccVoucherDetails#projectId (redundent)}</li>
+ *     <li>{@link com.athena.mis.accounting.entity.AccCancelledVoucher#projectId}</li>
+ *     <li>{@link com.athena.mis.accounting.entity.AccCancelledVoucherDetails#projectId (redundent)}</li>
+ *     <li>{@link com.athena.mis.accounting.entity.AccDivision#projectId}</li>
+ *     <li>{@link com.athena.mis.accounting.entity.AccIouSlip#projectId}</li>
+ *     <li>{@link com.athena.mis.accounting.entity.AccIpc#projectId}</li>
+ *     <li>{@link com.athena.mis.accounting.entity.AccIndent#projectId}</li>
+ *     <li>{@link com.athena.mis.accounting.entity.AccIndentDetails#projectId (redundent)}</li>
+ *
+ *     <strong>Fixed Asset Plugin</strong>
+ *     <li>{@link com.athena.mis.fixedasset.entity.FxdFixedAssetDetails#projectId (redundent)}</li>
+ *
+ *     <strong>QS Plugin</strong>
+ *     <li>{@link com.athena.mis.qs.entity.QsMeasurement#projectId (redundent)}</li>
+ * </ul>
+ *
+ * <p><strong>Local Reference:</strong> Has-a relationship with other domains:</p>
+ * <ul>
+ *     <li>{@link com.athena.mis.application.entity.AppUser#id as createdBy}</li>
+ *     <li>{@link com.athena.mis.application.entity.AppUser#id as updatedBy}</li>
+ *     <li>{@link com.athena.mis.application.entity.Company#id as companyId}</li>
+ * </ul>
+ *
+ * <p><strong>Cross Reference:</strong> many-to-many reference with Project:</p>
+ * <ul>
+ *     <li>Project VS {@link com.athena.mis.application.entity.AppUser} </br>
+ *      AppUser has many Project in {@link com.athena.mis.application.entity.AppUserEntity#entityId} </br>
+ *      Project has many AppUser in {@link com.athena.mis.application.entity.AppUserEntity#appUserId} </br>
+ *     </li>
+ *
+ *     <li>Project VS {@link com.athena.mis.budget.entity.BudgBudgetScope} </br>
+ *      BudgBudgetScope has many Project in {@link com.athena.mis.budget.entity.BudgProjectBudgetScope#projectId} </br>
+ *      Project has many BudgBudgetScope in {@link com.athena.mis.budget.entity.BudgProjectBudgetScope#budgetScopeId} </br>
+ *     </li>
+ * </ul>
+ *
+ */
+class Project {
+
+    public static final String DEFAULT_SORT_FIELD = "name"
+    // Delete query for deleting test data of project domain
+    public static final String DELETE_TEST_DATA_QUERY = """ DELETE FROM project WHERE id < 0 and company_id = :companyId """
+
+    long id               // primary key (Auto generated by its own sequence)
+    long version           // entity version in the persistence layer
+    String code           // Unique code within a company
+    String name           // Unique name within a company
+    String description    // Details description
+    Date createdOn        // Object creation DateTime
+    long createdBy        // AppUser.id
+    Date updatedOn        // Object updated DateTime
+    long updatedBy        // AppUser.id
+    long companyId        // Company.id
+    int contentCount      // Total number of static content/attachments
+    Date startDate        // Project initiation date
+    Date endDate          // Project completion date
+
+    boolean isApproveInFromSupplier     // autoApproval flag for Inventory In from Supplier
+    boolean isApproveInFromInventory    // autoApproval flag for Inventory In from another Inventory
+    boolean isApproveInvOut             // autoApproval flag fo Inventory Out
+    boolean isApproveConsumption        // autoApproval flag for Inventory Consumption
+    boolean isApproveProduction         // autoApproval flag for Inventory Production
+
+    static mapping = {
+        id generator: 'sequence', params: [sequence: 'project_id_seq']
+        startDate type: 'date'
+        endDate type: 'date'
+        createdBy index: 'project_created_by_idx'
+        updatedBy index: 'project_updated_by_idx'
+        companyId index: 'project_company_id_idx'
+
+        // unique index on "name" using ProjectService.createDefaultSchema()
+        // unique index on "code" using ProjectService.createDefaultSchema()
+        // <domain_name><property_name_1>idx
+    }
+
+    static constraints = {
+        code(nullable: false)
+        name(nullable: false)
+        contentCount(nullable: false)
+        description(nullable: true)
+        createdOn(nullable: false)
+        createdBy(nullable: false)
+        updatedOn(nullable: true)
+        updatedBy(nullable: false)
+        companyId(nullable: false)
+        isApproveInFromSupplier(nullable: false)
+        isApproveInFromInventory(nullable: false)
+        isApproveInvOut(nullable: false)
+        isApproveConsumption(nullable: false)
+        isApproveProduction(nullable: false)
+        startDate(nulable: false)
+        endDate(nulable: false)
+    }
+
+    public String getDescription() {
+        return description && description.length() > 255 ? description.substring(0, 254) : description
+    }
+}

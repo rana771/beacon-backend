@@ -1,0 +1,69 @@
+
+
+{table}
+Access Type: | Restricted | Priority: | High
+ *Name* | Show "Task Details" of *Beneficiary* | |
+ *ActionService:* | GetRmsTaskDetailsTagLibActionService | *Auditable:* | No
+ *Url:* | /rmsTask/renderTaskDetails | | 
+{table}
+
+h4. Revision History:
+{table}
+*Author*   | *Date* | *Reason for Changes*	| *Version*
+Meherun Nessa | 13th August 2014 | Initial Requirement | 1.0
+{table}
+
+h4. Actor:
+Administrator, Remittance User, Branch User.
+
+h4. Description:
+Name of use case represents its functionality.
+
+h4. Flow:
+* Actor clicks [ARMS|guide:_ShowARMSPlugin] option from top menu bar.
+* Click "Help Desk" sub menu from left menu.
+* Click "Search Beneficiary" link.
+* [Show Landing Page of "Search Beneficiary"|guide:_ShowBeneficiaryDetailsActionService].
+* User must insert valid input.
+* Click "Search" button.
+* [Search "Beneficiary"|guide:SearchBeneficiaryDetailsActionService].
+* Select a *Benefiaciary* from list.
+* Click "View Details" button.
+* Show "Task Details" of *Beneficiary*.
+
+h4. Pre-condition:
+* User must have "Show Task Details" privilege.
+
+h4. Process:
+* Show "Task Details" information in right side of grid view, with following information:
+** Task Details
+*** Exchange House
+*** Ref No
+*** Created On
+*** Amount
+*** Task List Name
+*** Current Status
+*** Payment Status
+*** Payment Method
+*** Destination Bank
+*** Instrument
+** Beneficiary Information
+*** Receiver Name
+*** Telephone
+*** Identity
+*** Account Number
+*** Beneficiary Bank
+** Sender Information
+*** Sender Name
+*** Telephone
+
+h4. Post-condition:
+
+* *Success:*
+** Show selected *Beneficiary* "Task Details" in right side grid view.
+
+* *Failure:*
+** Show error message for details visit [Error Handler|common Usecases].
+
+h4. Related Usecase:
+* [Show "Task History" from Search "Beneficiary"|guide:GetRmsTaskHistoryTagLibActionService].

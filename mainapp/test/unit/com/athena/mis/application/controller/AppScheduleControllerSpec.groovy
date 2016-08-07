@@ -1,0 +1,211 @@
+package com.athena.mis.application.controller
+
+import com.athena.mis.BaseService
+import com.athena.mis.application.actions.appschedule.ListAppScheduleActionService
+import com.athena.mis.application.actions.appschedule.ShowAppScheduleActionService
+import com.athena.mis.application.actions.appschedule.TestExecuteAppScheduleActionService
+import com.athena.mis.application.actions.appschedule.UpdateAppScheduleActionService
+import com.athena.mis.application.entity.AppSchedule
+import com.athena.mis.application.entity.AppUser
+import com.athena.mis.application.entity.SystemEntity
+import com.athena.mis.application.service.AppScheduleService
+import com.athena.mis.application.service.AppSystemEntityCacheService
+import com.athena.mis.application.session.AppSessionService
+import grails.test.mixin.Mock
+import grails.test.mixin.TestFor
+import org.quartz.core.QuartzScheduler
+import spock.lang.Specification
+
+/**
+ * Created by Asif on 12/17/2015.
+ */
+
+@TestFor(AppScheduleController)
+
+@Mock([
+        AppSchedule,
+        AppScheduleService,
+        AppSystemEntityCacheService,
+        UpdateAppScheduleActionService,
+        ShowAppScheduleActionService,
+        ListAppScheduleActionService,
+        TestExecuteAppScheduleActionService,
+        SystemEntity,
+        BaseService,
+        AppSessionService
+])
+
+class AppScheduleControllerSpec extends Specification {
+
+    void setup(){
+        AppUser appUser = new AppUser()
+        appUser.id = 1
+        appUser.companyId = 1
+
+        controller.showAppScheduleActionService.appSessionService.setAppUser(appUser)
+        controller.updateAppScheduleActionService.appSessionService.setAppUser(appUser)
+        controller.listAppScheduleActionService.appSessionService.setAppUser(appUser)
+        controller.testExecuteAppScheduleActionService.appSessionService.setAppUser(appUser)
+    }
+
+    def 'Show AppSchedule' () {
+
+        setup:
+
+        controller.params.plugin = 1
+
+        when:
+        request.method = "POST"
+        controller.show()
+
+        then:
+        view == '/application/appSchedule/show'
+    }
+
+    def 'Update AppSchedule' (){
+
+        setup :
+
+        AppSchedule appSchedule = new AppSchedule (
+
+                version : 0,                    // Entity version in the persistence layer
+                name : "Test Schedule",                    // Unique name of the Schedule within company
+                scheduleTypeId : 1,             // SystemEntity.id
+                repeatInterval : 60000,            // given in ms
+                repeatCount : 1,                // repeat counter
+                jobClassName : "com.athena.mis.application.job.AppMaintenanceShellScriptJob",            // job class name
+                enable : true,                  // flag for enable or disable
+                actionName : "Test Action",           // action name
+                pluginId : 1,                  // plugin id
+                companyId : 1,                 // Company.id
+                updatedBy : 1                  // AppUser.id
+        )
+        appSchedule.id = 1
+        appSchedule.save(flush: true)
+
+        SystemEntity systemEntity = new SystemEntity()
+        systemEntity.id = 1
+        systemEntity.version = 0
+        systemEntity.key = "Test Key"
+        systemEntity.type = 1
+        systemEntity.isActive = true
+        systemEntity.pluginId = 1
+        systemEntity.createdBy = 1
+        systemEntity.createdOn = new Date()
+        systemEntity.updatedOn = new Date()
+        systemEntity.updatedBy = 1
+        systemEntity.companyId = 1;
+
+        systemEntity.reservedId=controller.updateAppScheduleActionService.appSystemEntityCacheService.SIMPLE
+        systemEntity.save()
+
+        controller.updateAppScheduleActionService.appSystemEntityCacheService.sysEntityMap.put(controller.updateAppScheduleActionService.appSystemEntityCacheService.SYS_ENTITY_TYPE_SCHEDULE,[systemEntity])
+
+        QuartzScheduler quartzScheduler = new QuartzScheduler()
+        controller.updateAppScheduleActionService.quartzScheduler = quartzScheduler
+
+        controller.params.id = 1
+        controller.params.version = "0"
+        controller.params.name = "Test Schedule"
+        controller.params.scheduleTypeId = 1
+        controller.params.repeatInterval = 60000
+        controller.params.repeatCount = 1
+        controller.params.jobClassName = "Test Class"
+        controller.params.enable = true
+        controller.params.actionName = "Test Action"
+        controller.params.pluginId = 1
+        controller.params.companyId = 1
+        controller.params.updatedBy = 1
+
+        when:
+        request.method = 'POST'
+        controller.update()
+
+        then:
+        response.redirectedUrl == null
+        response.json.message == "Schedule has been updated successfully"
+        response.json.isError == false
+    }
+
+    def 'List AppSchedule' (){
+        setup :
+
+        AppSchedule appSchedule = new AppSchedule (
+                id : 1,                       // Primary Key (Auto Generated By it's own sequence)
+                version : 0,                    // Entity version in the persistence layer
+                name : "Test Schedule",                    // Unique name of the Schedule within company
+                scheduleTypeId : 1,             // SystemEntity.id
+                repeatInterval : 60000,            // given in ms
+                repeatCount : 1,                // repeat counter
+                jobClassName : "Test Class",            // job class name
+                enable : true,                  // flag for enable or disable
+                actionName : "Test Action",           // action name
+                pluginId : 1,                  // plugin id
+                companyId : 1,                 // Company.id
+                updatedBy : 1                  // AppUser.id
+        )
+        appSchedule.id = 1
+        appSchedule.save(flush: true)
+
+        controller.params.page = 1
+        controller.params.pageSize = 10
+        controller.params."sort[0]['dir']" = 'asc'
+        controller.params."sort[0]['field']" = 'name'
+        controller.params.take = 10
+        controller.params.skip = 0
+        controller.params.pluginId = 1
+
+        when:
+        request.method = 'POST'
+        controller.list()
+
+        then:
+        response.json.isError == false
+        response.json.count >= 0
+    }
+
+    def 'TestExecute AppSchedule' (){
+
+        setup:
+//        controller.params.id = 1                       // Primary Key (Auto Generated By it's own sequence)
+//        controller.params.version = 0                    // Entity version in the persistence layer
+//        controller.params.name = "Test Schedule"                    // Unique name of the Schedule within company
+//        controller.params.scheduleTypeId = 1             // SystemEntity.id
+//        controller.params.repeatInterval = 60000            // given in ms
+//        controller.params.repeatCount = 1                // repeat counter
+//        controller.params.jobClassName = "Test Class"            // job class name
+//        controller.params.enable = true                  // flag for enable or disable
+//        controller.params.actionName = "Test Action"           // action name
+//        controller.params.pluginId = 1                  // plugin id
+//        controller.params.companyId = 1                 // Company.id
+//        controller.params.updatedBy = 1
+
+        AppSchedule appSchedule = new AppSchedule (
+                id : 1,                       // Primary Key (Auto Generated By it's own sequence)
+                version : 0,                    // Entity version in the persistence layer
+                name : "Test Schedule",                    // Unique name of the Schedule within company
+                scheduleTypeId : 1,             // SystemEntity.id
+                repeatInterval : 60000,            // given in ms
+                repeatCount : 1,                // repeat counter
+                jobClassName : "com.athena.mis.application.job.AppBackupShellScriptJob",  // job class name
+                enable : true,                  // flag for enable or disable
+                actionName : "Test Action",           // action name
+                pluginId : 1,                  // plugin id
+                companyId : 1,                 // Company.id
+                updatedBy : 1                  // AppUser.id
+        )
+        appSchedule.id = 1
+        appSchedule.save(flush: true)
+
+        controller.params.id = appSchedule.id
+
+        when:
+        request.method = 'POST'
+        controller.testExecute()
+
+        then:
+        response.redirectedUrl == null
+        response.json.message == "Selected schedule executed successfully"
+        response.json.isError == false
+    }
+}
