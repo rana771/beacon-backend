@@ -9,6 +9,12 @@ class PlaceService extends BaseDomainService {
     TestDataModelService testDataModelService
 
     @Override
+    public Place read(long id){
+     return Place.read(id)
+
+    }
+
+    @Override
     public void init() {
         domainClass = Place.class
     }

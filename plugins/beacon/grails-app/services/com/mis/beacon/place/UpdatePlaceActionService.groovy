@@ -34,6 +34,7 @@ class UpdatePlaceActionService extends BaseService implements ActionServiceIntf 
     @Transactional(readOnly = true)
     public Map executePreCondition(Map params) {
         try {
+            AppUser user = super.getAppUser();
             //Check Validation
             String errMsg = checkValidation(params)
             if (errMsg) {
@@ -43,7 +44,8 @@ class UpdatePlaceActionService extends BaseService implements ActionServiceIntf 
             // check your custom valiation
 
             // build place object for update
-            getPlace(params)
+            Place place = getPlace(params, user)
+            params.put(PLACE, place)
 
             return params
         } catch (Exception ex) {
@@ -108,18 +110,15 @@ class UpdatePlaceActionService extends BaseService implements ActionServiceIntf 
      * @param params - serialize parameters from UI
      * @return - place object
      */
-    private Place getPlace(Map params) {
-        Place oldPlace = (Place) params.get(PLACE)
-        Place newPlace = new Place(params)
-        oldPlace.name = newPlace.name
-        oldPlace.code = newPlace.code
-        AppUser systemUser = super.getAppUser()
-        oldPlace.updatedOn = new Date()
-        oldPlace.updatedBy = systemUser.id
-
-        // write approval flag holds previous state if user is not config manager
-
-        return oldPlace
+    private Place getPlace(Map params, AppUser user) {
+        Place place = placeService.read(Long.parseLong(params.id))
+        place.name = params.name
+        place.geoFrenchRadius = params.geoFrenchRadius
+        place.longitude = params.longitude
+        place.latitude = params.latitude
+        place.updatedOn = new Date()
+        place.updatedBy = user.id
+        return place
     }
 
     /**
@@ -144,6 +143,20 @@ class UpdatePlaceActionService extends BaseService implements ActionServiceIntf 
         if (errMsg != null) return errMsg
 
         // Check your custom validation here
+
+        if (!params.name) {
+            return ERROR_FOR_INVALID_INPUT
+        }
+        if (!params.geoFrenchRadius) {
+            return ERROR_FOR_INVALID_INPUT
+        }
+        if (!params.longitude) {
+            return ERROR_FOR_INVALID_INPUT
+        }
+        if (!params.latitude) {
+            return ERROR_FOR_INVALID_INPUT
+        }
+
 
         params.put(PLACE, place)
         return null

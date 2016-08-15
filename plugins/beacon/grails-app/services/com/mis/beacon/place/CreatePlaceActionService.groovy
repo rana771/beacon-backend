@@ -104,12 +104,14 @@ class CreatePlaceActionService  extends BaseService implements ActionServiceIntf
      * @return - place object
      */
     private Place getPlace(Map params, AppUser user) {
-        Place place = new Place(params)
+        Place place = new Place()
+        place.name = params.name
+        place.geoFrenchRadius = params.geoFrenchRadius
+        place.longitude = params.longitude
+        place.latitude = params.latitude
         place.createdOn = new Date()
         place.createdBy = user.id
-        place.companyId = user.companyId
         place.updatedBy = 0
-        place.updatedOn = null
         return place
     }
 
@@ -123,7 +125,20 @@ class CreatePlaceActionService  extends BaseService implements ActionServiceIntf
      */
     private String checkValidation(Map params, AppUser user) {
         String errMsg
-            //write your validation message here
+        //Check parameters
+        if (!params.name) {
+            return ERROR_FOR_INVALID_INPUT
+        }
+        if (!params.geoFrenchRadius) {
+            return ERROR_FOR_INVALID_INPUT
+        }
+        if (!params.longitude) {
+            return ERROR_FOR_INVALID_INPUT
+        }
+        if (!params.latitude) {
+            return ERROR_FOR_INVALID_INPUT
+        }
+
 
         return null
     }

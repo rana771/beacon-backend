@@ -40,9 +40,9 @@
         if (!validateForm($("#placeForm"))) {   // check kendo validation
             return false;
         }
-        if (!customValidateDate($("#startDate"), 'Start date', $("#endDate"), 'end date')) {
+       /* if (!customValidateDate($("#startDate"), 'Start date', $("#endDate"), 'end date')) {
             return false;
-        }
+        }*/
         return true;
     }
 

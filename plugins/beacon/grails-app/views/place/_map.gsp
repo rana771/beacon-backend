@@ -51,7 +51,7 @@
 
     <div class="col-md-2">
         <input type="text" class="k-textbox" id="latitude" name="latitude" maxlength="255"
-               required validationMessage="Required" data-bind="value: beacon.latitude"
+               required validationMessage="Required" data-bind="value: place.latitude"
                tabindex="3" autofocus/>
     </div>
 
@@ -62,7 +62,7 @@
 
     <div class="col-md-2">
         <input type="text" class="k-textbox" id="longitude" name="longitude" maxlength="255"
-               required validationMessage="Required" data-bind="value: beacon.longitude"
+               required validationMessage="Required" data-bind="value: place.longitude"
                tabindex="4" autofocus/>
     </div>
 
