@@ -1,16 +1,16 @@
-package com.mis.beacon.place
+package com.mis.beacon.device.device
 
-import com.mis.beacon.Place
+import com.mis.beacon.device.Device
 import com.athena.mis.BaseService
 import com.athena.mis.ActionServiceIntf
 import org.apache.log4j.Logger
 import org.springframework.transaction.annotation.Transactional
 
-class ListPlaceActionService extends BaseService implements ActionServiceIntf {
+class ListDeviceActionService extends BaseService implements ActionServiceIntf {
 
      private Logger log = Logger.getLogger(getClass());
     /**
-     * No pre conditions required for searching place domains
+     * No pre conditions required for searching device domains
      *
      * @param params - Request parameters
      * @return - same map of input-parameter containing isError(true/false)
@@ -22,7 +22,7 @@ class ListPlaceActionService extends BaseService implements ActionServiceIntf {
     /**
      * 1. initialize params for pagination of list
      *
-     * 2. pull all place list from database (if no criteria)
+     * 2. pull all device list from database (if no criteria)
      *
      * 3. pull filtered result from database (if given criteria)
      *
@@ -32,7 +32,7 @@ class ListPlaceActionService extends BaseService implements ActionServiceIntf {
     @Transactional(readOnly = true)
     public Map execute(Map result) {
         try {
-            Map resultMap = super.getSearchResult(result, Place.class)
+            Map resultMap = super.getSearchResult(result, Device.class)
             result.put(LIST, resultMap.list)
             result.put(COUNT, resultMap.count)
             return result

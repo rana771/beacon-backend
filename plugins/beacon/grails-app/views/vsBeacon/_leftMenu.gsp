@@ -22,6 +22,10 @@
                 <li><a class='autoload' href="#place/show"><span><i class="pre-icon supplier"></i></span> <span
                         class="menuText">Place</span></a></li>
             </sec:access>
+            <sec:access url="/device/show">
+                <li><a class='autoload' href="#device/show"><span><i class="pre-icon supplier"></i></span> <span
+                        class="menuText">Add Device</span></a></li>
+            </sec:access>
             <sec:access url="/campaign/show">
                 <li><a class='autoload' href="#campaign/show"><span><i class="pre-icon supplier"></i>
                 </span> <span
