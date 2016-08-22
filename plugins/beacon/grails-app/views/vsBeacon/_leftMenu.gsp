@@ -32,7 +32,7 @@
                         class="menuText">Campaign</span></a></li>
             </sec:access>
             <sec:access url="/content/show">
-                <li><a class='autoload' href="#campaign/show"><span><i class="pre-icon supplier"></i>
+                <li><a class='autoload' href="#content/show"><span><i class="pre-icon supplier"></i>
                 </span> <span
                         class="menuText">Content</span></a></li>
             </sec:access>
